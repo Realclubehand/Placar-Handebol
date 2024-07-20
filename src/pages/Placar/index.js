@@ -3,7 +3,7 @@ import './Placar.css'
 
 export default function PlacarOnline(props){
   
-  const [TypePlacar,setTypePlacar] = useState("config")
+  const [TypePlacar,setTypePlacar] = useState("placar")
   
   const initialName = {
     timeA: 'Time A',
@@ -46,21 +46,25 @@ export default function PlacarOnline(props){
       const { name, value } = ev.target
       setNomeTime({ ...NomeTime, [name]: value})
     }
+
+    function handleSubmit(ev) {
+      ev.preventDefault()
+      setTypePlacar("placar")
+    }
   
     return(
       <div className="config-placar__container">
         <div className="title__container">
           <h1>Insira as informações da partida</h1>
         </div>
-        <form className="info-partida-form">
+        <form className="info-partida-form" onSubmit={handleSubmit}>
           <input type="text" placeholder="Nome do time A" name="timeA" id="timeA" onChange={nomeiaTime}/>
-          <input type="text" placeholder="Nome do time B" name="timeB"id="timeB" onChange={nomeiaTime}/>
+          <input type="text" placeholder="Nome do time B" name="timeB" id="timeB" onChange={nomeiaTime}/>
+          <button id="start" type="submit">Iniciar Partida!</button>
         </form>
-        <button id="start" type="button" onClick={()=> setTypePlacar("placar")}>Iniciar Partida!</button>
       </div>
     )
   }
-
 
   function placar(timeA, timeB) {
     function anularGolsTimeA(){
@@ -78,19 +82,22 @@ export default function PlacarOnline(props){
     function confirmarReset() {
       let confirmReset = window.confirm("Deseja realmente reiniciar?")
       if(confirmReset){
-        setTimer(0)
-        setTimerOn(false)
+        resetPlacar()
       }
     }
 
-    function resetAll() {
-      confirmarReset()
-      setTypePlacar("config")
+    function resetPlacar() {
+      setTimer(0)
+      setTimerOn(false)
       setGolsTimeA(0)
       setGolsTimeB(0)
     }
 
-    
+    function resetAll() {
+      setTypePlacar("config")
+      resetPlacar()
+    }
+
     return(
       <div className="container">
 
@@ -124,7 +131,7 @@ export default function PlacarOnline(props){
           
           <div className="reset-button">
             <button type="button" onClick={resetAll}>Iniciar novo jogo</button>
-            <button type="button" onClick={resetAll}>Reiniciar Partida</button>
+            <button type="button" onClick={resetPlacar}>Reiniciar Partida</button>
           </div>
 
           <div className="marcar-button">
