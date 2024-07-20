@@ -3,7 +3,7 @@ import './Placar.css'
 
 export default function PlacarOnline(props){
   
-  const [TypePlacar,setTypePlacar] = useState("placar")
+  const [TypePlacar,setTypePlacar] = useState("config")
   
   const initialName = {
     timeA: 'Time A',
